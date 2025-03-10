@@ -1,8 +1,8 @@
 'use client'
 
 import {useTheme} from "next-themes";
-import { useSwitch, VisuallyHidden } from '@nextui-org/react'
-import { SunIcon, MoonIcon } from '@nextui-org/shared-icons'
+import { useSwitch, VisuallyHidden } from '@heroui/react'
+import { SunIcon, MoonIcon } from '@heroui/shared-icons'
 
 export default function ThemeToggle() {
     const { theme, setTheme } = useTheme()
