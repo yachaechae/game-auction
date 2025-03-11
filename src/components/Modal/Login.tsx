@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import {
   Modal,
   ModalContent,
@@ -8,18 +8,19 @@ import {
   Input,
   Checkbox,
   Button,
-  Link, Form,
+  Link,
+  Form,
 } from '@heroui/react';
 import { MailIcon, LockFilledIcon } from '@heroui/shared-icons';
-import { useState } from "react";
+import { useState } from 'react';
 
 interface LoginModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-function LoginModal({ isOpen, onOpenChange }: LoginModalProps) {
-  const [password, setPassword] = useState("");
+export default function LoginModal({ isOpen, onOpenChange }: LoginModalProps) {
+  const [password, setPassword] = useState('');
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -32,44 +33,44 @@ function LoginModal({ isOpen, onOpenChange }: LoginModalProps) {
             <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
             <ModalBody>
               <Form onSubmit={onSubmit}>
-              <Input
-                endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                }
-                label="Email"
-                placeholder="Enter your email"
-                variant="bordered"
-              />
-              <Input
+                <Input
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Email"
+                  placeholder="Enter your email"
+                  variant="bordered"
+                />
+                <Input
                   validate={(value) => {
                     if (value.length < 3) {
-                      return "Username must be at least 3 characters long";
+                      return 'Username must be at least 3 characters long';
                     }
 
-                    return value === "admin" ? "Nice try!" : null;
+                    return value === 'admin' ? 'Nice try!' : null;
                   }}
-                endContent={
-                  <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                }
-                label="Password"
-                placeholder="Enter your password"
-                type="password"
-                variant="bordered"
+                  endContent={
+                    <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Password"
+                  placeholder="Enter your password"
+                  type="password"
+                  variant="bordered"
                   value={password}
                   onValueChange={setPassword}
-              />
-              <div className="flex py-2 px-1 justify-between">
-                <Checkbox
-                  classNames={{
-                    label: 'text-small',
-                  }}
-                >
-                  Remember me
-                </Checkbox>
-                <Link color="primary" href="#" size="sm">
-                  Forgot password?
-                </Link>
-              </div>
+                />
+                <div className="flex py-2 px-1 justify-between">
+                  <Checkbox
+                    classNames={{
+                      label: 'text-small',
+                    }}
+                  >
+                    Remember me
+                  </Checkbox>
+                  <Link color="primary" href="#" size="sm">
+                    Forgot password?
+                  </Link>
+                </div>
               </Form>
             </ModalBody>
             <ModalFooter>
@@ -86,5 +87,3 @@ function LoginModal({ isOpen, onOpenChange }: LoginModalProps) {
     </Modal>
   );
 }
-
-export default LoginModal;

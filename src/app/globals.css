@@ -3,17 +3,42 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #ffffff;
+    --foreground: #171717;
+    --overlay-light: rgba(255, 255, 255, 0.7);
+    --overlay-dark: rgba(0, 0, 0, 0.8);
 }
 
-.dark:root{
+.dark:root {
     --background: #0a0a0a;
     --foreground: #ededed;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+    background-image: url('/img/BG.jpg');
+    background-color: var(--background);
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: center top;
+    position: relative;
+    z-index: -1;
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--overlay-light);
+    pointer-events: none;
+    transition: background-color 0.3s ease;
+}
+
+.dark body::before {
+    background-color: var(--overlay-dark);
 }

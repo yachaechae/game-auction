@@ -5,16 +5,15 @@ import {
   SelectItem as SelectItemComponent,
 } from '@heroui/react';
 import React from 'react';
-import placeholder from 'lodash/fp/placeholder';
 
-export const ImgSelectBox: React.FC<ImgSelectBoxProps> = ({
+export default function ImgSelectBox({
   data,
   imgWidth,
   value,
   onChange,
   label,
   placeholder,
-}) => {
+}: ImgSelectBoxProps) {
   const renderSelectItem = (data: TierImgType) => (
     <SelectItemComponent<TierImgType> key={data.id} textValue={data.name}>
       <div className="flex gap-2 items-center">
@@ -32,21 +31,19 @@ export const ImgSelectBox: React.FC<ImgSelectBoxProps> = ({
   );
 
   const renderSelectedValue = (items: Array<{ data: TierImgType }>) => {
-    return items.map((item) => {
-      return (
-        <div key={item.data.id} className="flex items-center gap-2">
-          <Image
-            alt={item.data?.name}
-            className="flex-shrink-0"
-            src={`img/Tier/${item.data?.src}`}
-            width={imgWidth}
-          />
-          <div className="flex flex-col">
-            <span>{item.data?.name}</span>
-          </div>
+    return items.map((item) => (
+      <div key={item.data.id} className="flex items-center gap-2">
+        <Image
+          alt={item.data?.name}
+          className="flex-shrink-0"
+          src={`img/Tier/${item.data?.src}`}
+          width={imgWidth}
+        />
+        <div className="flex flex-col">
+          <span>{item.data?.name}</span>
         </div>
-      );
-    });
+      </div>
+    ));
   };
   const selectedData = (select: string) => {
     const selected = data.filter((item) => item.id === Number(select));
@@ -55,17 +52,12 @@ export const ImgSelectBox: React.FC<ImgSelectBoxProps> = ({
 
   return (
     <Select
-      classNames={{
-        label: 'pb-3',
-        trigger: ' min-h-16',
-      }}
       items={data}
       onChange={(e) => selectedData(e.target.value)}
       value={value?.id}
       label={label}
       labelPlacement="outside"
       placeholder={placeholder}
-      variant="bordered"
       renderValue={(items) =>
         renderSelectedValue(
           items.filter((item): item is { data: TierImgType } => !!item.data),
@@ -75,4 +67,4 @@ export const ImgSelectBox: React.FC<ImgSelectBoxProps> = ({
       {(data) => renderSelectItem(data)}
     </Select>
   );
-};
+}
