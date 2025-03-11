@@ -19,7 +19,7 @@ export default function NavBar() {
     <>
       <Navbar>
         <NavbarBrand>
-          <Link href="/" onClick={onOpen} className="font-bold text-inherit">
+          <Link href="/" className="font-bold text-inherit">
             E-SPORT AUCTION
           </Link>
         </NavbarBrand>
