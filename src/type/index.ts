@@ -1,14 +1,20 @@
 export interface TierImgType {
-    id:number;
-    name: string;
-    src: string;
+  id: number;
+  name: string;
+  src: string;
 }
 
-
 export interface ImgSelectBoxProps {
-    data: TierImgType[];
-    imgWidth:number;
-    value: number | undefined;
-    onChange: (value: number | undefined) => void;
-    label: string;
+  data: TierImgType[];
+  imgWidth: number;
+  value: TierImgType | undefined;
+  onChange: (value: TierImgType | undefined) => void;
+  label: string;
+  placeholder: string;
+}
+
+export interface PostCreateData {
+  teamCount: number;
+  minTier: TierImgType;
+  leaderPoints: number;
 }
