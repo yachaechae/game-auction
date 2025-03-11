@@ -1,0 +1,13 @@
+
+[
+{ "id": 0, "name": "Unranked", "img": "Unranked.webp" },
+{ "id": 1, "name": "Bronze", "img": "Bronze.png" },
+{ "id": 2, "name": "Silver", "img": "Silver.png" },
+{ "id": 3, "name": "Gold", "img": "Gold.png" },
+{ "id": 4, "name": "Platinum", "img": "Platinum.png" },
+{ "id": 5, "name": "Emerald", "img": "Emerald.png" },
+{ "id": 6, "name": "Diamond", "img": "Diamond.png" },
+{ "id": 7, "name": "Master", "img": "Master.png" },
+{ "id": 8, "name": "Grandmaster", "img": "Grandmaster.png" },
+{ "id": 9, "name": "Challenger", "img": "Challenger.png" }
+]
