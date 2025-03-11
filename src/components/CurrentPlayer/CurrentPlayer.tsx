@@ -44,7 +44,7 @@ export default function CurrentPlayer() {
     : [];
 
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center justify-center">
       <PlayProfile player={currentData} />
       <div className="flex flex-row gap-2">
         {matchingHeroesData.map((hero: Champion) => {
