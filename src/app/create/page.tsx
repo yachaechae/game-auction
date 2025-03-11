@@ -1,8 +1,8 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Input } from '@heroui/react';
 import { PostCreateData, TierImgType } from '@/type';
-import { ImgSelectBox } from '@/components/ImgSelectBox/ImgSelectBox';
+import ImgSelectBox from '@/components/ImgSelectBox/ImgSelectBox';
 import data from '@/data/tierImg.json';
 
 const TIER_DATA: TierImgType[] = data.map((item) => ({
