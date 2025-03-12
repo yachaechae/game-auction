@@ -1,9 +1,5 @@
 import { ImgSelectBoxProps, TierImgType } from '@/type';
-import {
-  Image,
-  Select,
-  SelectItem as SelectItemComponent,
-} from '@heroui/react';
+import { Image, Select, SelectItem } from '@heroui/react';
 import React from 'react';
 
 export default function ImgSelectBox({
@@ -15,19 +11,19 @@ export default function ImgSelectBox({
   placeholder,
 }: ImgSelectBoxProps) {
   const renderSelectItem = (data: TierImgType) => (
-    <SelectItemComponent<TierImgType> key={data.id} textValue={data.name}>
+    <SelectItem<TierImgType> key={data.id} textValue={data.name}>
       <div className="flex gap-2 items-center">
         <Image
           alt={data.name}
           className="flex-shrink-0"
-          src={`img/Tier/${data?.src}`}
+          src={data?.src}
           width={imgWidth}
         />
         <div className="flex flex-col">
           <span className="text-small">{data.name}</span>
         </div>
       </div>
-    </SelectItemComponent>
+    </SelectItem>
   );
 
   const renderSelectedValue = (items: Array<{ data: TierImgType }>) => {
@@ -36,7 +32,7 @@ export default function ImgSelectBox({
         <Image
           alt={item.data?.name}
           className="flex-shrink-0"
-          src={`img/Tier/${item.data?.src}`}
+          src={item.data?.src}
           width={imgWidth}
         />
         <div className="flex flex-col">
@@ -52,11 +48,14 @@ export default function ImgSelectBox({
 
   return (
     <Select
+      classNames={{
+        trigger: 'h-12',
+      }}
       items={data}
-      onChange={(e) => selectedData(e.target.value)}
       value={value?.id}
       label={label}
       labelPlacement="outside"
+      onChange={(e) => selectedData(e.target.value)}
       placeholder={placeholder}
       renderValue={(items) =>
         renderSelectedValue(
