@@ -1,13 +1,14 @@
 
 [
-{ "id": 0, "name": "Unranked", "img": "Unranked.webp" },
-{ "id": 1, "name": "Bronze", "img": "Bronze.png" },
-{ "id": 2, "name": "Silver", "img": "Silver.png" },
-{ "id": 3, "name": "Gold", "img": "Gold.png" },
-{ "id": 4, "name": "Platinum", "img": "Platinum.png" },
-{ "id": 5, "name": "Emerald", "img": "Emerald.png" },
-{ "id": 6, "name": "Diamond", "img": "Diamond.png" },
-{ "id": 7, "name": "Master", "img": "Master.png" },
-{ "id": 8, "name": "Grandmaster", "img": "Grandmaster.png" },
-{ "id": 9, "name": "Challenger", "img": "Challenger.png" }
+  { "id": 0, "name": "Unranked", "img": "img/Tier/Unranked.webp" },
+  { "id": 1, "name": "Bronze", "img": "img/Tier/Bronze.png" },
+  { "id": 2, "name": "Silver", "img": "img/Tier/Silver.png" },
+  { "id": 3, "name": "Gold", "img": "img/Tier/Gold.png" },
+  { "id": 4, "name": "Platinum", "img": "img/Tier/Platinum.png" },
+  { "id": 5, "name": "Emerald", "img": "img/Tier/Emerald.png" },
+  { "id": 6, "name": "Diamond", "img": "img/Tier/Diamond.png" },
+  { "id": 7, "name": "Master", "img": "img/Tier/Master.png" },
+  { "id": 8, "name": "Grandmaster", "img": "img/Tier/Grandmaster.png" },
+  { "id": 9, "name": "Challenger", "img": "img/Tier/Challenger.png" }
+
 ]
