@@ -40,7 +40,6 @@ export default function Create() {
             type="number"
             label="참가 팀 수"
             placeholder="최대 팀 수를 입력해주세요"
-            variant="bordered"
             value={teamCount?.toString()}
             validate={(value: string) => {
               const numValue = parseInt(value, 10);
@@ -70,7 +69,6 @@ export default function Create() {
             type="number"
             label="팀장 기본 포인트 설정"
             placeholder="팀장의 기본 포인트를 설정해주세요"
-            variant="bordered"
             validate={(value: string) => {
               const numValue = parseInt(value, 10);
               if (numValue < 1) {
