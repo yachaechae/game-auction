@@ -1,4 +1,9 @@
-export interface ImageType {
+export interface ModalProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export interface TierImgType {
   id: number;
   name: string;
   src: string;
