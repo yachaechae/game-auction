@@ -56,6 +56,33 @@ export interface UserDataType {
   updatedDate: string;
 }
 
+export interface Champion {
+  version: string;
+  id: string;
+  name: string;
+  image: {
+    full: string;
+  };
+}
+
+export type ChampionData = {
+  [key: string]: Champion;
+};
+
+export interface UserDataType {
+  id: number;
+  userId: string;
+  inGameName: string;
+  highestTier: string;
+  primaryLane: string;
+  secondaryLane: string;
+  mostPlayedHeroes: string;
+  profileImgUrl: string | undefined | null;
+  selfIntroduction: string;
+  createdDate: string;
+  updatedDate: string;
+}
+
 export interface RegisterFormData {
   inGameName: string;
   highestTier: TierImgType;

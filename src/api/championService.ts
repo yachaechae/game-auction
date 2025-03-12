@@ -14,12 +14,12 @@ export const fetchChampionData = async (): Promise<any> => {
     console.log(
       'championDataResponse 전체 응답:',
       championDataResponse.data.data,
-    ); // 추가: championDataResponse 전체 로그
+    );
 
     return championDataResponse.data.data;
   } catch (error: any) {
     console.error('챔피언 데이터 fetching 중 에러 발생:', error);
-    console.error('에러 내용:', error); // 추가: 에러 객체 자체를 로그
+    console.error('에러 내용:', error);
     throw error;
   }
 };
