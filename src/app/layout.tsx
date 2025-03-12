@@ -29,9 +29,9 @@ export default function RootLayout({
       <NextProviders>
         <html lang="en">
           <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased !overflow-auto`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased !overflow-auto relative`}
           >
-            <header>
+            <header className={`absolute top-0 w-full`}>
               <NavBar />
             </header>
             {children}
