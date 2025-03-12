@@ -9,12 +9,13 @@ import {
   Form,
 } from '@heroui/react';
 import { AvatarIcon, LockFilledIcon } from '@heroui/shared-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ModalProps } from '@/type';
 
-export default function LoginModal({ isOpen, onOpenChange }: ModalProps) {
+export default function SignUpModal({ isOpen, onOpenChange }: ModalProps) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [checkPassword, setCheckPassword] = useState('');
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -53,6 +54,23 @@ export default function LoginModal({ isOpen, onOpenChange }: ModalProps) {
                   variant="bordered"
                   value={password}
                   onValueChange={setPassword}
+                />
+                <Input
+                  validate={(value) => {
+                    if (value.length < 3) {
+                      return 'Username must be at least 3 characters long';
+                    }
+                    return value === 'admin' ? 'Nice try!' : null;
+                  }}
+                  endContent={
+                    <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Password"
+                  placeholder="Enter your password"
+                  type="password"
+                  variant="bordered"
+                  value={checkPassword}
+                  onValueChange={setCheckPassword}
                 />
               </Form>
             </ModalBody>

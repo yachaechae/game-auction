@@ -11,9 +11,19 @@ import {
 } from '@heroui/react';
 import ThemeToggle from '@/components/Theme/ThemeSwitcher';
 import LoginModal from '@/components/Modal/Login';
+import SignUpModal from '@/components/Modal/SignUp';
 
 export default function NavBar() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isLoginOpen,
+    onOpen: onLoginOpen,
+    onOpenChange: onLoginOpenChange,
+  } = useDisclosure();
+  const {
+    isOpen: isSignUpOpen,
+    onOpen: onSignUpOpen,
+    onOpenChange: onSignUpOpenChange,
+  } = useDisclosure();
 
   return (
     <>
@@ -42,17 +52,12 @@ export default function NavBar() {
         {/*</NavbarContent>*/}
         <NavbarContent justify="end">
           <NavbarItem className="hidden lg:flex">
-            <Link href="#" onClick={onOpen}>
+            <Button onPress={onLoginOpen} variant="light">
               Login
-            </Link>
+            </Button>
           </NavbarItem>
           <NavbarItem>
-            <Button
-              as={Link}
-              className="bg-navy text-white"
-              href="#"
-              variant="flat"
-            >
+            <Button onPress={onSignUpOpen} variant="light">
               Sign Up
             </Button>
           </NavbarItem>
@@ -62,7 +67,8 @@ export default function NavBar() {
         </NavbarContent>
       </Navbar>
 
-      <LoginModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <LoginModal isOpen={isLoginOpen} onOpenChange={onLoginOpenChange} />
+      <SignUpModal isOpen={isSignUpOpen} onOpenChange={onSignUpOpenChange} />
     </>
   );
 }
