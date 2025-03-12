@@ -38,10 +38,6 @@ export interface Champion {
   };
 }
 
-export type ChampionData = {
-  [key: string]: Champion;
-};
-
 export interface UserDataType {
   id: number;
   userId: string;
