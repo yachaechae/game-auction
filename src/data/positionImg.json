@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "name": "All",
+    "src": "img/Position/All.png"
+  },
+  {
+    "id": 1,
+    "name": "Top",
+    "src": "img/Position/Top.png"
+  },
+  {
+    "id": 2,
+    "name": "Jungle",
+    "src": "img/Position/Jungle.png"
+  },
+  {
+    "id": 3,
+    "name": "Mid",
+    "src": "img/Position/Mid.png"
+  },
+  {
+    "id": 4,
+    "name": "Bot",
+    "src": "img/Position/Bot.png"
+  },
+  {
+    "id": 5,
+    "name": "Sup",
+    "src": "img/Position/Sup.png"
+  }
+]
