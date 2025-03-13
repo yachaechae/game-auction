@@ -9,14 +9,47 @@ import {
   Form,
 } from '@heroui/react';
 import { AvatarIcon, LockFilledIcon } from '@heroui/shared-icons';
-import { useEffect, useState } from 'react';
-import { ModalProps } from '@/type';
+import React, { FormEvent, useState } from 'react';
+import { AuthDataType, ModalProps } from '@/type';
+import { useMutation } from '@tanstack/react-query';
+import { loginApi } from '@/api/authService';
 
 export default function LoginModal({ isOpen, onOpenChange }: ModalProps) {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [action, setAction] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const mutation = useMutation({
+    mutationFn: loginApi,
+    onSuccess: (data: AuthDataType) => {
+      setAction(`Form submitted successfully: ${JSON.stringify(data)}`);
+      onOpenChange?.(false);
+    },
+    onError: (error: any) => {
+      console.error('API 요청 실패:', error);
+      setError('로그인에 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData) as {
+      [key: string]: FormDataEntryValue;
+    };
+
+    const userData: AuthDataType = {
+      loginId: String(data.loginId),
+      password: String(data.password),
+    };
+
+    mutation.mutate(userData);
+  };
+
+  const onReset = () => {
+    setAction('reset');
+    setError(null);
   };
 
   return (
@@ -24,46 +57,49 @@ export default function LoginModal({ isOpen, onOpenChange }: ModalProps) {
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
-            <ModalBody>
-              <Form onSubmit={onSubmit}>
+            <Form onReset={onReset} onSubmit={onSubmit}>
+              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+              <ModalBody className="w-full">
                 <Input
-                  endContent={
-                    <AvatarIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                  }
-                  label="ID"
+                  isRequired
+                  errorMessage="Please enter a valid login ID"
+                  label="Login ID"
+                  labelPlacement="outside"
+                  name="loginId"
                   placeholder="Enter your ID"
-                  variant="bordered"
-                  value={id}
-                  onValueChange={setId}
+                  type="text"
                 />
+
                 <Input
+                  isRequired
                   validate={(value) => {
                     if (value.length < 3) {
                       return 'Username must be at least 3 characters long';
                     }
                     return value === 'admin' ? 'Nice try!' : null;
                   }}
-                  endContent={
-                    <LockFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                  }
+                  errorMessage="Please enter a valid password"
                   label="Password"
+                  labelPlacement="outside"
+                  name="password"
                   placeholder="Enter your password"
                   type="password"
-                  variant="bordered"
-                  value={password}
-                  onValueChange={setPassword}
                 />
-              </Form>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="flat" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" onPress={onClose}>
-                Sign in
-              </Button>
-            </ModalFooter>
+              </ModalBody>
+              <ModalFooter className="w-full">
+                <Button
+                  color="danger"
+                  type="reset"
+                  variant="flat"
+                  onPress={onClose}
+                >
+                  Close
+                </Button>
+                <Button color="primary" type="submit">
+                  Submit
+                </Button>
+              </ModalFooter>
+            </Form>
           </>
         )}
       </ModalContent>
