@@ -12,6 +12,7 @@ import {
 import ThemeToggle from '@/components/Theme/ThemeSwitcher';
 import LoginModal from '@/components/Modal/Login';
 import SignUpModal from '@/components/Modal/SignUp';
+import { authStore, logout } from '@/store/authStore';
 
 export default function NavBar() {
   const {
@@ -25,6 +26,10 @@ export default function NavBar() {
     onOpenChange: onSignUpOpenChange,
   } = useDisclosure();
 
+  const { user, isLoggedIn } = authStore.getState();
+  console.log(authStore.getState());
+
+  console.log(isLoggedIn ? '로그인' : '로그아웃');
   return (
     <>
       <Navbar>
@@ -51,16 +56,28 @@ export default function NavBar() {
         {/*  </NavbarItem>*/}
         {/*</NavbarContent>*/}
         <NavbarContent justify="end">
-          <NavbarItem className="hidden lg:flex">
-            <Button onPress={onLoginOpen} variant="light">
-              Login
-            </Button>
-          </NavbarItem>
-          <NavbarItem>
-            <Button onPress={onSignUpOpen} variant="light">
-              Sign Up
-            </Button>
-          </NavbarItem>
+          {isLoggedIn ? (
+            <>
+              <NavbarItem className="hidden lg:flex">
+                <Button onPress={() => logout()} variant="light">
+                  LogOut
+                </Button>
+              </NavbarItem>
+            </>
+          ) : (
+            <>
+              <NavbarItem className="hidden lg:flex">
+                <Button onPress={onLoginOpen} variant="light">
+                  Login
+                </Button>
+              </NavbarItem>
+              <NavbarItem>
+                <Button onPress={onSignUpOpen} variant="light">
+                  Sign Up
+                </Button>
+              </NavbarItem>
+            </>
+          )}
           <NavbarItem>
             <ThemeToggle />
           </NavbarItem>
