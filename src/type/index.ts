@@ -1,9 +1,15 @@
 export interface ModalProps {
   isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange?: (open: boolean) => void;
+  children?: React.ReactNode;
 }
 
-export interface TierImgType {
+export interface AuthDataType {
+  loginId: string;
+  password: string;
+  confirmPassword?: string;
+}
+export interface ImageType {
   id: number;
   name: string;
   src: string;
