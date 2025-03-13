@@ -1,14 +1,14 @@
-import axiosClient from '@/api/axiosClient';
+import axiosRiot from '@/api/axiosRiot';
 import { ChampionData } from '@/type';
 
 export const fetchChampionData = async (): Promise<any> => {
   try {
     const versionsResponse =
-      await axiosClient.get<string[]>('/api/versions.json');
+      await axiosRiot.get<string[]>('/api/versions.json');
 
     const version = versionsResponse.data[0];
 
-    const championDataResponse = await axiosClient.get<ChampionData>(
+    const championDataResponse = await axiosRiot.get<ChampionData>(
       `/cdn/${version}/data/ko_KR/champion.json`,
     );
     console.log(
