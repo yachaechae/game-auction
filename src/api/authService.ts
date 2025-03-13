@@ -2,31 +2,35 @@ import axiosServer from '@/api/axiosServer';
 import { AuthDataType } from '@/type';
 import { setCookie } from 'cookies-next';
 import { authStore } from '@/store/authStore';
+import Swal from 'sweetalert2';
 
 export const signUpApi = async (
   userData: AuthDataType,
 ): Promise<AuthDataType> => {
   try {
     const response = await axiosServer.post('/auth/register', userData);
-    console.log(response);
+    Swal.fire({
+      title: '회원가입 완료!',
+      text: '축하합니다, 회원가입이 성공적으로 완료되었습니다.',
+      icon: 'success',
+      confirmButtonText: '확인',
+    });
+
     return response.data;
   } catch (error) {
-    console.error('회원가입 요청 실패:', error);
     throw error;
   }
 };
 export const loginApi = async (userData: AuthDataType): Promise<any> => {
   try {
     const loginResponse = await axiosServer.post('/auth/login', userData);
-    console.log('로그인 응답:', loginResponse.data.data);
-    const accessToken = loginResponse.data;
+    const accessToken = loginResponse.data.data.accessToken;
 
     setCookie('accessToken', accessToken);
 
-    authStore.getState().setUser({ name: userData.loginId });
+    authStore.getState().setToken(accessToken);
     return loginResponse;
   } catch (error: any) {
-    console.error('로그인 중 에러 발생:', error);
     throw error;
   }
 };

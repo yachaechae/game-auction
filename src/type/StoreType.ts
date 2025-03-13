@@ -1,6 +1,6 @@
 export interface AuthState {
-  user: { name: string } | null;
+  token: string | null;
   isLoggedIn: boolean;
-  setUser: (user: { name: string }) => void;
+  setToken: (token: string) => void;
   logout: () => void;
 }

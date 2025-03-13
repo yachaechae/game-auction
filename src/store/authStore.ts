@@ -2,27 +2,29 @@ import { create } from 'zustand';
 import { deleteCookie, getCookie } from 'cookies-next';
 import { AuthState } from '@/type/StoreType';
 
-const authStore = create<AuthState>((set) => {
-  return {
-    user: null,
-    isLoggedIn: false,
-    setUser: (user) => set({ user, isLoggedIn: true }),
-    logout: () => set({ user: null, isLoggedIn: false }),
-  };
-});
-
+const authStore = create<AuthState>((set) => ({
+  token: null,
+  isLoggedIn: false,
+  setToken: (token) => set({ token, isLoggedIn: true }),
+  logout: () => {
+    set({ token: null, isLoggedIn: false });
+    deleteCookie('accessToken');
+  },
+}));
 const initializeUser = () => {
-  const cookies = { user: getCookie('user') as string | undefined };
-  const userFromCookie = cookies.user ? JSON.parse(cookies.user) : null;
-  const isLoggedIn = userFromCookie !== null;
+  const token = getCookie('accessToken') as string | undefined;
+  console.log(token);
+  if (token) {
+    authStore.getState().setToken(token);
+  }
 
-  authStore.setState({ user: userFromCookie, isLoggedIn });
+  const isLoggedIn = token !== undefined;
+
+  authStore.setState({ isLoggedIn });
 };
 
 const logout = () => {
   deleteCookie('accessToken');
-
   authStore.getState().logout();
 };
-
 export { authStore, initializeUser, logout };

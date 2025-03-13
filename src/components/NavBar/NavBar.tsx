@@ -12,7 +12,10 @@ import {
 import ThemeToggle from '@/components/Theme/ThemeSwitcher';
 import LoginModal from '@/components/Modal/Login';
 import SignUpModal from '@/components/Modal/SignUp';
-import { authStore, logout } from '@/store/authStore';
+import { authStore, initializeUser, logout } from '@/store/authStore';
+import { useStore } from 'zustand/react';
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function NavBar() {
   const {
@@ -26,10 +29,17 @@ export default function NavBar() {
     onOpenChange: onSignUpOpenChange,
   } = useDisclosure();
 
-  const { user, isLoggedIn } = authStore.getState();
-  console.log(authStore.getState());
+  const { isLoggedIn } = useStore(authStore);
 
-  console.log(isLoggedIn ? '로그인' : '로그아웃');
+  const pathname = usePathname();
+
+  useEffect(() => {
+    initializeUser();
+    if (pathname === '/login') {
+      onLoginOpen();
+    }
+  }, [pathname, onLoginOpen]);
+
   return (
     <>
       <Navbar>

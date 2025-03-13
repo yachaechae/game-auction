@@ -8,7 +8,6 @@ import {
   Button,
   Form,
 } from '@heroui/react';
-import { AvatarIcon, LockFilledIcon } from '@heroui/shared-icons';
 import React, { FormEvent, useState } from 'react';
 import { AuthDataType, ModalProps } from '@/type';
 import { useMutation } from '@tanstack/react-query';
