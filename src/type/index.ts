@@ -15,12 +15,17 @@ export interface ImgType {
   name: string;
   src: string;
 }
+export interface ImgTypeKey {
+  key: number;
+  name: string;
+  src: string;
+}
 
 export interface ImgSelectBoxProps {
-  data: ImgType[];
+  data: ImgTypeKey[];
   imgWidth: number;
-  value: ImgType | undefined;
-  onChange: (value: ImgType | undefined) => void;
+  value: ImgTypeKey | undefined;
+  onChange: (value: ImgTypeKey | undefined) => void;
   label: string;
   placeholder: string;
 }

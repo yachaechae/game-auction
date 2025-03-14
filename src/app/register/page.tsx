@@ -4,14 +4,15 @@ import { Avatar, Button, Form, Input } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { RegisterFormData, ImgTypeKey } from '@/type';
 import { getProfileApi, registerAuctionApi } from '@/api/auctionService';
-import { RegisterFormData, ImgType } from '@/type';
+import { uploadProfileImgToS3 } from '@/api/uploadImg/route';
 import ImgSelectBox from '@/components/ImgSelectBox/ImgSelectBox';
 import AutocompleteBox from '@/components/AutocompleteBox/AutocompleteBox';
 import ImgRadio from '@/components/ImgRadio/ImgRadio';
 import data from '@/data/tierImg.json';
 
-const TIER_DATA: ImgType[] = data.map((item) => ({
+const TIER_DATA: ImgTypeKey[] = data.map((item) => ({
   key: item.id,
   name: item.name,
   src: item.img,
@@ -21,8 +22,10 @@ const DEFAULT_AVATAR =
   'https://i.namu.wiki/i/QW9jS79_492MuFZxNNmTgNGa5ynysDaTfbkjOLJ5CTeYTWQc3rmdkB3ba4vpi8dRXGwlXdjFPZ1bGCCX9jpYSg.svg';
 
 export default function Register() {
-  const [tier, setTier] = useState<ImgType>({ key: 0, name: '', src: '' });
+  const [tier, setTier] = useState<ImgTypeKey>({ key: 0, name: '', src: '' });
   const [selectedHeroes, setSelectedHeroes] = useState<string[]>([]);
+
+  const [previewImg, setPreviewImg] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState<RegisterFormData | null>(null);
   const router = useRouter();
 
@@ -79,25 +82,22 @@ export default function Register() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProfileImageChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = e.target.files?.[0];
+
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
-          handleChange('profileImgUrl', reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
+      setPreviewImg(file ? file : null);
     }
   };
+
   const handleHeroesChange = (updatedHeroes: string[]) => {
     setSelectedHeroes(updatedHeroes);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (selectedHeroes.length < 3) {
       Swal.fire({
         icon: 'warning',
@@ -106,14 +106,17 @@ export default function Register() {
       });
       return;
     }
+
     const data: RegisterFormData = {
       ...formData,
+      profileImageUrl: previewImg && (await uploadProfileImgToS3(previewImg)),
       highestTier: tier.name,
       mostPlayedHeroes: selectedHeroes.join(','),
     };
 
     mutation.mutate(data);
   };
+
   console.log(formData);
 
   return (
@@ -129,12 +132,24 @@ export default function Register() {
                 }
               }}
             >
-              <Avatar
-                src={formData.profileImgUrl || DEFAULT_AVATAR}
-                className="w-20 h-20 rounded-full border-2 border-gray-300"
-              />
+              {formData.profileImgUrl ? (
+                <Avatar
+                  src={formData.profileImgUrl}
+                  className="w-20 h-20 rounded-full border-2 border-gray-300"
+                />
+              ) : (
+                <Avatar
+                  src={
+                    previewImg instanceof File
+                      ? URL.createObjectURL(previewImg)
+                      : previewImg || DEFAULT_AVATAR
+                  }
+                  className="w-20 h-20 rounded-full border-2 border-gray-300"
+                />
+              )}
             </div>
           </div>
+
           <Input
             className="hidden"
             labelPlacement="outside"
