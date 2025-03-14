@@ -1,0 +1,67 @@
+[
+{
+  "id": 0,
+  "userId": "야채채",
+  "inGameName":"도공도공 #kr1",
+  "highestTier":"Platinum",
+        "primaryLane":"Bot",
+        "secondaryLane":"Sup",
+        "mostPlayedHeroes":"이즈리얼, 카이사, 징크스",
+        "profileImgUrl":"",
+        "selfIntroduction":"어쩌구 저쩌구",
+        "createdDate" :"2025.03.11",
+                "updatedDate":"2025.03.11"
+},
+{
+"id": 1,
+"userId": "야채채",
+"inGameName":"도공도공 #kr1",
+"highestTier":"Emerald",
+"primaryLane":"Mid",
+"secondaryLane":"All",
+"mostPlayedHeroes":"이즈리얼, 카이사, 징크스",
+"profileImgUrl":"https://lh3.googleusercontent.com/pw/AP1GczMS5yu4n0_wMbXCIkJTRymt8-FwKnIkNqVTqfcanWFIIpQdkTpJRkWZE4F7f3JjgdaSGQVKndqP9nFTIw5SgdkvIFLQOvP4cOoYZvQ3k6bN713CREWd6GcRo-iAeJ3h940zArR1KqbFd87e-9PL7YTFhlodSzBge9WIvHZWK_kvPTl2cKqqHv74Te-ZKercWahvkrGQlaltbrp8GJ8QVmTSHCSsOiTW1vI5WNaAsd55BJSOmRuhJOArS5I6_YWpKGrNZu8qHJh0Ex49yhCFQT3RTa86kWrIN3jERI5uPvgteXVCMTcEkDBK0qAA5oqv_GnGgv4siLWaHOkLSVidBr57apgxh-dc28ooHouptfigfy7EpS3bSj4L8-neu54LyVEqc6_rbouvcRB4knB3kC25oU-qrAeIlYmnOMzQm7lGasr3hpbDmXZGdd354B5h12S3rl1nuX8nDqNuWRPsDfYhCBvEKZUgsQl7_EuCCuO_kDbS_Tre0RuAhzsu3LjpJTLsivMeJfwwvsnEHJrywmMgM5M8WpcOd7g-wnww_ouyeVz7RioHzHpdlTzXjQF3sbjP9VYHtKeC8QF7GPWrcD5h9Dz1zCSxtkqG2VWyoy_Rn-f-gXV-MPUsh_bLOh4tYr4OtERZimZfMoW3r5il3c6bzv36F8IFNKmJX1tW03r95vBiBAZF8w0B0AZT_ka-x1jyGwMQST6bb3F7Q0hfW-ZUkWkfLr5v2Q3JHJSKLHRiksjTLJzSi-YPjQF74BRReBL2ygcOskfEUr6CdePtTeZcFnEJniH9KyKXN8lQt5eVJlJ_3lbYi6-su454k4leKOS2PLMyWUUNkbpUZvRd_noVire-IHChpdbt2RCvhAmfHQvqbBsBkGQ345kHdaMUm7QfcAXaZMYSPQP_tGF4sd2WZvo2-jQa_JBzB8HouZXE3wdNqhffTrZMwgbA8AhzhJagmCvAglCHDtFeTWijn-Q1Hd2_qnpS04hAw1Qaq4mncamD-9ZxQGkba5nDp-aoQ3dkPLTQBVrM5pr8xAw=s1081-no?authuser=0",
+"selfIntroduction":"어쩌구 저쩌구",
+"createdDate" :"2025.03.11",
+"updatedDate":"2025.03.11"
+},
+{
+"id": 2,
+"userId": "야채채",
+"inGameName":"도공도공 #kr1",
+"highestTier":"Challenger",
+"primaryLane":"Jungle",
+"secondaryLane":"Top",
+"mostPlayedHeroes":"이즈리얼, 카이사, 징크스",
+"profileImgUrl":null,
+"selfIntroduction":"어쩌구 저쩌구",
+"createdDate" :"2025.03.11",
+"updatedDate":"2025.03.11"
+},
+{
+"id": 3,
+"userId": "야채채",
+"inGameName":"도공도공 #kr1",
+"highestTier":"Bronze",
+"primaryLane":"Bot",
+"secondaryLane":"Sup",
+"mostPlayedHeroes":"이즈리얼, 카이사, 징크스",
+"profileImgUrl": null,
+"selfIntroduction":"어쩌구 저쩌구",
+"createdDate" :"2025.03.11",
+"updatedDate":"2025.03.11"
+},
+  {
+    "id": 4,
+    "userId": "야채채",
+    "inGameName":"도공도공 #kr1",
+    "highestTier":"Silver",
+    "primaryLane":"Top",
+    "secondaryLane":"Mid",
+    "mostPlayedHeroes":"이즈리얼, 카이사, 징크스",
+    "profileImgUrl": null,
+    "selfIntroduction":"어쩌구 저쩌구",
+    "createdDate" :"2025.03.11",
+    "updatedDate":"2025.03.11"
+  }
+]
