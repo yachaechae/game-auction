@@ -80,7 +80,8 @@ export interface RegisterFormData {
   primaryLane: string;
   secondaryLane: string;
   mostPlayedHeroes: string;
-  profileImgUrl: string | null;
+  profileImgUrl?: string | null;
+  profileImageUrl?: string | null;
   selfIntroduction: string;
 }
 export interface ImgRadioProps {
