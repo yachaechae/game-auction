@@ -24,9 +24,7 @@ const DEFAULT_AVATAR =
 export default function Register() {
   const [tier, setTier] = useState<ImgTypeKey>({ key: 0, name: '', src: '' });
   const [selectedHeroes, setSelectedHeroes] = useState<string[]>([]);
-
   const [previewImg, setPreviewImg] = useState<File | null>(null);
-  const [submitted, setSubmitted] = useState<RegisterFormData | null>(null);
   const router = useRouter();
 
   const fileInput = useRef<HTMLInputElement>(null);
@@ -64,8 +62,7 @@ export default function Register() {
 
   const mutation = useMutation({
     mutationFn: registerAuctionApi,
-    onSuccess: (data: RegisterFormData) => {
-      setSubmitted(data);
+    onSuccess: () => {
       Swal.fire({
         icon: 'success',
         title: '프로필 등록 완료!',

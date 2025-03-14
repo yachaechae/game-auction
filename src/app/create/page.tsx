@@ -10,13 +10,11 @@ import { useRouter } from 'next/navigation';
 export default function Create() {
   const [maxTeam, setMaxTeam] = useState<number | undefined>(0);
   const [initialPoint, setInitialPoint] = useState<number>(0);
-  const [submitted, setSubmitted] = useState<PostCreateData | null>(null);
   const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: createAuctionApi,
-    onSuccess: (data: PostCreateData) => {
-      setSubmitted(data);
+    onSuccess: () => {
       Swal.fire({
         icon: 'success',
         title: '경매 생성 완료!',

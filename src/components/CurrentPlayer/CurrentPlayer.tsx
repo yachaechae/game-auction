@@ -50,6 +50,7 @@ export default function CurrentPlayer() {
         {matchingHeroesData.map((hero: Champion) => {
           return (
             <Avatar
+              key={hero.id}
               src={
                 process.env.NEXT_PUBLIC_RIOT_URL +
                 `cdn/${hero.version}/img/champion/${hero.image.full}`

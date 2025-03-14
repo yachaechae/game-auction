@@ -8,30 +8,21 @@ import {
   Button,
   Form,
 } from '@heroui/react';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent } from 'react';
 import { AuthDataType, ModalProps } from '@/type';
 import { useMutation } from '@tanstack/react-query';
 import { loginApi } from '@/api/authService';
 
 export default function LoginModal({ isOpen, onOpenChange }: ModalProps) {
-  const [action, setAction] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
   const mutation = useMutation({
     mutationFn: loginApi,
-    onSuccess: (data: AuthDataType) => {
-      setAction(`Form submitted successfully: ${JSON.stringify(data)}`);
+    onSuccess: () => {
       onOpenChange?.(false);
-    },
-    onError: (error: any) => {
-      console.error('API 요청 실패:', error);
-      setError('로그인에 실패했습니다. 다시 시도해주세요.');
     },
   });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData) as {
@@ -46,17 +37,12 @@ export default function LoginModal({ isOpen, onOpenChange }: ModalProps) {
     mutation.mutate(userData);
   };
 
-  const onReset = () => {
-    setAction('reset');
-    setError(null);
-  };
-
   return (
     <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
       <ModalContent>
         {(onClose) => (
           <>
-            <Form onReset={onReset} onSubmit={onSubmit}>
+            <Form onSubmit={onSubmit}>
               <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
               <ModalBody className="w-full">
                 <Input

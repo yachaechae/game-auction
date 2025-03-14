@@ -42,7 +42,7 @@ export default function ImgSelectBox({
     ));
   };
   const selectedData = (select: string) => {
-    const selected = data.filter((item) => item.id === Number(select));
+    const selected = data.filter((item) => item.key === Number(select));
     return onChange(selected[0]);
   };
 

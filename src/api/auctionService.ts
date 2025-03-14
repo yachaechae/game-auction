@@ -46,7 +46,7 @@ export const getProfileApi = async (): Promise<RegisterFormData> => {
       },
     );
     return response.data.data;
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 };

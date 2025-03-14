@@ -21,7 +21,9 @@ export const signUpApi = async (
     throw error;
   }
 };
-export const loginApi = async (userData: AuthDataType): Promise<any> => {
+export const loginApi = async (
+  userData: AuthDataType,
+): Promise<{ data: { data: { accessToken: string } } }> => {
   try {
     const loginResponse = await axiosServer.post('/auth/login', userData);
     const accessToken = loginResponse.data.data.accessToken;
@@ -30,7 +32,7 @@ export const loginApi = async (userData: AuthDataType): Promise<any> => {
 
     authStore.getState().setToken(accessToken);
     return loginResponse;
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 };

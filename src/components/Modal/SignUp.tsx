@@ -15,17 +15,14 @@ import { useMutation } from '@tanstack/react-query';
 import { signUpApi } from '@/api/authService';
 
 export default function SignUpModal({ isOpen, onOpenChange }: ModalProps) {
-  const [action, setAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const mutation = useMutation({
     mutationFn: signUpApi,
-    onSuccess: (data: AuthDataType) => {
-      console.log('회원가입 성공');
-      setAction(`Form submitted successfully: ${JSON.stringify(data)}`);
+    onSuccess: () => {
       onOpenChange?.(false);
     },
-    onError: (error: any) => {
+    onError: (error) => {
       console.error('API 요청 실패:', error);
       setError('회원가입에 실패했습니다. 다시 시도해주세요.');
     },
@@ -56,17 +53,12 @@ export default function SignUpModal({ isOpen, onOpenChange }: ModalProps) {
     });
   };
 
-  const onReset = () => {
-    setAction('reset');
-    setError(null);
-  };
-
   return (
     <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
       <ModalContent>
         {(onClose) => (
           <>
-            <Form onReset={onReset} onSubmit={onSubmit}>
+            <Form onSubmit={onSubmit}>
               <ModalHeader className="flex flex-col gap-1">Sign Up</ModalHeader>
               <ModalBody className="w-full">
                 <Input

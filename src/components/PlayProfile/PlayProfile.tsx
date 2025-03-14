@@ -1,22 +1,7 @@
 import React from 'react';
 import { Avatar } from '@heroui/react';
 import { UserDataType } from '@/type';
-import dummy from '@/data/dummy.json';
 import ProfileImg from '@/components/PlayProfile/ProfileImg';
-
-const DUMMY_DATA: UserDataType[] = dummy.map((player: UserDataType) => ({
-  id: player.id,
-  userId: player.userId,
-  inGameName: player.inGameName,
-  highestTier: player.highestTier,
-  primaryLane: player.primaryLane,
-  secondaryLane: player.secondaryLane,
-  mostPlayedHeroes: player.mostPlayedHeroes,
-  profileImgUrl: player.profileImgUrl,
-  selfIntroduction: player.selfIntroduction,
-  createdDate: player.createdDate,
-  updatedDate: player.updatedDate,
-}));
 
 const DEFULT_AVATER =
   'https://i.namu.wiki/i/QW9jS79_492MuFZxNNmTgNGa5ynysDaTfbkjOLJ5CTeYTWQc3rmdkB3ba4vpi8dRXGwlXdjFPZ1bGCCX9jpYSg.svg';
