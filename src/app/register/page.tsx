@@ -182,7 +182,7 @@ export default function Register() {
               label="챔피언 선택"
               placeholder="챔피언을 검색해 주세요"
               selectedHeroes={selectedHeroes}
-              onHeroesChange={handleHeroesChange}
+              onHeroesChangeAction={handleHeroesChange}
             />
           </div>
 

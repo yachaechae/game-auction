@@ -32,7 +32,7 @@ export interface ImgSelectBoxProps {
 
 export interface AutocompleteProps {
   selectedHeroes: string[];
-  onHeroesChange: (updatedHeroes: string[]) => void;
+  onHeroesChangeAction: (updatedHeroes: string[]) => void;
   label: string;
   placeholder: string;
 }

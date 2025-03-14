@@ -10,7 +10,7 @@ export default function AutocompleteBox({
   label,
   placeholder,
   selectedHeroes,
-  onHeroesChange,
+  onHeroesChangeAction,
 }: AutocompleteProps) {
   const [internalSelectedHeroes, setInternalSelectedHeroes] =
     useState<string[]>(selectedHeroes);
@@ -38,7 +38,7 @@ export default function AutocompleteBox({
     if (selectedChampion && internalSelectedHeroes.length < 3) {
       const updatedHeroes = [...internalSelectedHeroes, selectedChampion.name];
       setInternalSelectedHeroes(updatedHeroes);
-      onHeroesChange(updatedHeroes);
+      onHeroesChangeAction(updatedHeroes);
     }
   };
 
@@ -47,7 +47,7 @@ export default function AutocompleteBox({
       (name) => name !== heroName,
     );
     setInternalSelectedHeroes(updatedHeroes);
-    onHeroesChange(updatedHeroes);
+    onHeroesChangeAction(updatedHeroes);
   };
   return (
     <div>
