@@ -1,35 +1,83 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Avatar, Button, Form, Input } from '@heroui/react';
-import { Champion, RegisterFormData, TierImgType } from '@/type';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getProfileApi, registerAuctionApi } from '@/api/auctionService';
+import { RegisterFormData, ImgType } from '@/type';
 import ImgSelectBox from '@/components/ImgSelectBox/ImgSelectBox';
 import AutocompleteBox from '@/components/AutocompleteBox/AutocompleteBox';
 import ImgRadio from '@/components/ImgRadio/ImgRadio';
-import { CloseIcon } from '@heroui/shared-icons';
 import data from '@/data/tierImg.json';
 
-const TIER_DATA: TierImgType[] = data.map((item) => ({
-  id: item.id,
+const TIER_DATA: ImgType[] = data.map((item) => ({
+  key: item.id,
   name: item.name,
   src: item.img,
 }));
 const DEFAULT_IMAGE_WIDTH = 50;
-const DEFULT_AVATER =
+const DEFAULT_AVATAR =
   'https://i.namu.wiki/i/QW9jS79_492MuFZxNNmTgNGa5ynysDaTfbkjOLJ5CTeYTWQc3rmdkB3ba4vpi8dRXGwlXdjFPZ1bGCCX9jpYSg.svg';
 
 export default function Register() {
+  const [tier, setTier] = useState<ImgType>({ key: 0, name: '', src: '' });
+  const [selectedHeroes, setSelectedHeroes] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState<RegisterFormData | null>(null);
+  const router = useRouter();
+
   const fileInput = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<RegisterFormData>({
     inGameName: '',
-    highestTier: { id: 0, name: '', src: '' },
+    highestTier: '',
     primaryLane: '',
-    secondaryLane: null,
-    mostPlayedHeroes: [],
+    secondaryLane: '',
+    mostPlayedHeroes: '',
     profileImgUrl: null,
     selfIntroduction: '',
   });
+
+  const { data: profileData, isLoading } = useQuery<RegisterFormData, Error>({
+    queryKey: ['profile'],
+    queryFn: getProfileApi,
+  });
+
+  useEffect(() => {
+    if (profileData) {
+      setFormData(profileData);
+      const foundTier = TIER_DATA.find(
+        (tier) => tier.name === profileData.highestTier,
+      );
+      if (foundTier) {
+        setTier(foundTier);
+      }
+      const heroes = profileData.mostPlayedHeroes
+        ? profileData.mostPlayedHeroes.split(',')
+        : [];
+      setSelectedHeroes(heroes);
+    }
+  }, [profileData, isLoading]);
+
+  const mutation = useMutation({
+    mutationFn: registerAuctionApi,
+    onSuccess: (data: RegisterFormData) => {
+      setSubmitted(data);
+      Swal.fire({
+        icon: 'success',
+        title: '프로필 등록 완료!',
+        confirmButtonText: '확인',
+      });
+      router.push('/');
+    },
+  });
+
+  const handleChange = <T extends keyof RegisterFormData>(
+    field: T,
+    value: RegisterFormData[T],
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -37,29 +85,36 @@ export default function Register() {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
-          setFormData({
-            ...formData,
-            profileImgUrl: reader.result,
-          });
+          handleChange('profileImgUrl', reader.result);
         }
       };
       reader.readAsDataURL(file);
     }
   };
-
-  const removeHero = (name: string) => {
-    setFormData({
-      ...formData,
-      mostPlayedHeroes: formData.mostPlayedHeroes.filter(
-        (hero) => hero.name !== name,
-      ),
-    });
+  const handleHeroesChange = (updatedHeroes: string[]) => {
+    setSelectedHeroes(updatedHeroes);
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(formData);
+
+    if (selectedHeroes.length < 3) {
+      Swal.fire({
+        icon: 'warning',
+        title: '챔피언 3개를 선택해주세요',
+        confirmButtonText: '확인',
+      });
+      return;
+    }
+    const data: RegisterFormData = {
+      ...formData,
+      highestTier: tier.name,
+      mostPlayedHeroes: selectedHeroes.join(','),
+    };
+
+    mutation.mutate(data);
   };
+  console.log(formData);
 
   return (
     <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -74,17 +129,10 @@ export default function Register() {
                 }
               }}
             >
-              {formData.profileImgUrl ? (
-                <Avatar
-                  src={formData.profileImgUrl}
-                  className="w-20 h-20 rounded-full border-2 border-gray-300"
-                />
-              ) : (
-                <Avatar
-                  src={DEFULT_AVATER}
-                  className="w-20 h-20 rounded-full border-2 border-gray-300"
-                />
-              )}
+              <Avatar
+                src={formData.profileImgUrl || DEFAULT_AVATAR}
+                className="w-20 h-20 rounded-full border-2 border-gray-300"
+              />
             </div>
           </div>
           <Input
@@ -92,7 +140,6 @@ export default function Register() {
             labelPlacement="outside"
             type="file"
             label="프로필 이미지 업로드"
-            required={true}
             ref={fileInput}
             onChange={handleProfileImageChange}
           />
@@ -106,69 +153,40 @@ export default function Register() {
             placeholder="롤 아이디를 입력해주세요"
             value={formData.inGameName}
             required={true}
-            onChange={(e) =>
-              setFormData({ ...formData, inGameName: e.target.value })
-            }
+            onChange={(e) => handleChange('inGameName', e.target.value)}
           />
 
           <ImgSelectBox
             data={TIER_DATA}
             imgWidth={DEFAULT_IMAGE_WIDTH}
-            value={formData.highestTier}
-            onChange={(value) =>
-              setFormData({
-                ...formData,
-                highestTier: value ?? { id: 0, name: '', src: '' },
-              })
-            }
+            value={tier}
+            onChange={(value) => value && setTier(value)}
             label={'현 티어'}
             placeholder={'현 티어를 선택해주세요'}
           />
 
           <div className="w-full flex flex-col gap-2 relative">
-            <div className="flex gap-4 justify-end -mb-6">
-              {formData.mostPlayedHeroes.map((hero) => (
-                <div className="relative" key={hero.name}>
-                  <CloseIcon
-                    className={`absolute top-0 right-0 z-10 cursor-pointer bg-foreground text-background rounded-full`}
-                    onClick={() => {
-                      removeHero(hero.name);
-                    }}
-                  />
-                  <Avatar
-                    src={
-                      process.env.NEXT_PUBLIC_RIOT_URL +
-                      `cdn/${hero.version}/img/champion/${hero.image.full}`
-                    }
-                    className="w-14 h-14"
-                  />
-                </div>
-              ))}
-            </div>
             <AutocompleteBox
-              selectedHeroes={formData.mostPlayedHeroes}
-              label={'MOST 3'}
-              placeholder={'MOST 3 를 선택해주세요'}
-              onChange={(value: Champion[]) =>
-                setFormData({
-                  ...formData,
-                  mostPlayedHeroes: value,
-                })
-              }
+              label="챔피언 선택"
+              placeholder="챔피언을 검색해 주세요"
+              selectedHeroes={selectedHeroes}
+              onHeroesChange={handleHeroesChange}
             />
           </div>
 
           <ImgRadio
             label={'주 라인'}
-            onValueChange={(value) => {
-              setFormData({ ...formData, primaryLane: value });
-            }}
+            defaultValue={formData.primaryLane}
+            onValueChange={(value: string) =>
+              handleChange('primaryLane', value)
+            }
           />
           <ImgRadio
             label={'부 라인'}
-            onValueChange={(value) => {
-              setFormData({ ...formData, secondaryLane: value });
-            }}
+            defaultValue={formData.secondaryLane}
+            onValueChange={(value: string) =>
+              handleChange('secondaryLane', value)
+            }
           />
 
           <Input
@@ -179,14 +197,14 @@ export default function Register() {
             type="text"
             label="한마디"
             placeholder="하고싶은 말을 적어주세요"
-            value={formData.selfIntroduction}
             required={true}
+            value={formData.selfIntroduction}
             onChange={(e) =>
               setFormData({ ...formData, selfIntroduction: e.target.value })
             }
           />
-          <Button type="submit" className={`bg-gold`}>
-            Submit
+          <Button type="submit" color="primary">
+            확인
           </Button>
         </Form>
       </main>

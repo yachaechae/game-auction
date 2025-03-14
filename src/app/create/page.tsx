@@ -1,33 +1,46 @@
 'use client';
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
+import { useMutation } from '@tanstack/react-query';
 import { Button, Form, Input } from '@heroui/react';
-import { PostCreateData, TierImgType } from '@/type';
-import ImgSelectBox from '@/components/ImgSelectBox/ImgSelectBox';
-import data from '@/data/tierImg.json';
-
-const TIER_DATA: TierImgType[] = data.map((item) => ({
-  id: item.id,
-  name: item.name,
-  src: item.img,
-}));
-const DEFAULT_IMAGE_WIDTH = 50;
+import { PostCreateData } from '@/type';
+import { createAuctionApi } from '@/api/auctionService';
+import { useRouter } from 'next/navigation';
 
 export default function Create() {
-  const [teamCount, setTeamCount] = useState<number | undefined>(0);
-  const [minTier, setMinTier] = useState<TierImgType | undefined>(undefined);
-  const [leaderPoints, setLeaderPoints] = useState<number>(0);
+  const [maxTeam, setMaxTeam] = useState<number | undefined>(0);
+  const [initialPoint, setInitialPoint] = useState<number>(0);
   const [submitted, setSubmitted] = useState<PostCreateData | null>(null);
+  const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: createAuctionApi,
+    onSuccess: (data: PostCreateData) => {
+      setSubmitted(data);
+      Swal.fire({
+        icon: 'success',
+        title: '경매 생성 완료!',
+        confirmButtonText: '확인',
+      });
+      router.push('/');
+    },
+  });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // if (!maxTeam || initialPoint < 1) {
+    //   setError('모든 항목을 정확히 입력해주세요.');
+    //   return;
+    // }
+
     const data: PostCreateData = {
-      teamCount: teamCount!,
-      minTier: minTier!,
-      leaderPoints: leaderPoints!,
+      maxTeam: maxTeam!,
+      // minTier: minTier!,
+      initialPoint: initialPoint!,
     };
 
-    setSubmitted(data);
+    mutation.mutate(data);
   };
 
   return (
@@ -40,7 +53,7 @@ export default function Create() {
             type="number"
             label="참가 팀 수"
             placeholder="최대 팀 수를 입력해주세요"
-            value={teamCount?.toString()}
+            value={maxTeam?.toString()}
             validate={(value: string) => {
               const numValue = parseInt(value, 10);
               if (numValue <= 1) {
@@ -48,21 +61,21 @@ export default function Create() {
               }
             }}
             onChange={(e) =>
-              setTeamCount(
+              setMaxTeam(
                 isNaN(parseInt(e.target.value, 10))
                   ? 0
                   : parseInt(e.target.value, 10),
               )
             }
           />
-          <ImgSelectBox
-            data={TIER_DATA}
-            imgWidth={DEFAULT_IMAGE_WIDTH}
-            value={minTier}
-            onChange={setMinTier}
-            label={'최소 티어 설정'}
-            placeholder={'티어 정보를 입력해주세요'}
-          />
+          {/*<ImgSelectBox*/}
+          {/*    data={TIER_DATA}*/}
+          {/*    imgWidth={DEFAULT_IMAGE_WIDTH}*/}
+          {/*    value={minTier}*/}
+          {/*    onChange={setMinTier}*/}
+          {/*    label={'최소 티어 설정'}*/}
+          {/*    placeholder={'티어 정보를 입력해주세요'}*/}
+          {/*/>*/}
 
           <Input
             labelPlacement="outside"
@@ -75,16 +88,16 @@ export default function Create() {
                 return '팀장 포인트는 0 이상의 숫자여야 합니다.';
               }
             }}
-            value={leaderPoints === null ? '' : leaderPoints?.toString()}
+            value={initialPoint === null ? '' : initialPoint?.toString()}
             onChange={(e) =>
-              setLeaderPoints(
+              setInitialPoint(
                 isNaN(parseInt(e.target.value, 10))
                   ? 0
                   : parseInt(e.target.value, 10),
               )
             }
           />
-          <Button type="submit" className={`bg-gold`}>
+          <Button type="submit" color="primary">
             Submit
           </Button>
         </Form>
