@@ -9,35 +9,33 @@ export interface AuthDataType {
   password: string;
   confirmPassword?: string;
 }
-export interface ImageType {
+
+export interface ImgType {
   id: number;
   name: string;
   src: string;
 }
 
-export type TierImgType = ImageType;
-export type PositionImgType = ImageType;
-
 export interface ImgSelectBoxProps {
-  data: TierImgType[];
+  data: ImgType[];
   imgWidth: number;
-  value: TierImgType | undefined;
-  onChange: (value: TierImgType | undefined) => void;
+  value: ImgType | undefined;
+  onChange: (value: ImgType | undefined) => void;
   label: string;
   placeholder: string;
 }
 
 export interface AutocompleteProps {
-  selectedHeroes: Champion[];
-  onChange: (value: Champion[]) => void;
+  selectedHeroes: string[];
+  onHeroesChange: (updatedHeroes: string[]) => void;
   label: string;
   placeholder: string;
 }
 
 export interface PostCreateData {
-  teamCount: number;
-  minTier: TierImgType;
-  leaderPoints: number;
+  maxTeam: number;
+  minTier?: ImgType;
+  initialPoint: number;
 }
 
 export interface Champion {
@@ -62,42 +60,32 @@ export interface UserDataType {
   createdDate: string;
   updatedDate: string;
 }
-
-export interface Champion {
-  version: string;
-  id: string;
-  name: string;
-  image: {
-    full: string;
-  };
+export interface PlayerProfileProps {
+  player: UserDataType;
+  customStyle?: string;
 }
 
-export type ChampionData = {
+export interface ChampionData {
   [key: string]: Champion;
-};
-
-export interface UserDataType {
-  id: number;
-  userId: string;
-  inGameName: string;
-  highestTier: string;
-  primaryLane: string;
-  secondaryLane: string;
-  mostPlayedHeroes: string;
-  profileImgUrl: string | undefined | null;
-  selfIntroduction: string;
-  createdDate: string;
-  updatedDate: string;
 }
 
 export interface RegisterFormData {
   inGameName: string;
-  highestTier: TierImgType;
+  highestTier: string;
   primaryLane: string;
-  secondaryLane: string | null;
-  mostPlayedHeroes: Champion[];
+  secondaryLane: string;
+  mostPlayedHeroes: string;
   profileImgUrl: string | null;
   selfIntroduction: string;
+}
+export interface ImgRadioProps {
+  defaultValue: string;
+  onValueChange?: (value: string) => void;
+  label?: string;
+}
+export interface DefaultResponse<T> {
+  resultCode: string;
+  data: T;
 }
 
 export interface CustomRadioProps {

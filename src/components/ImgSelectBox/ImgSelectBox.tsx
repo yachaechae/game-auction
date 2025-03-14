@@ -1,4 +1,4 @@
-import { ImgSelectBoxProps, TierImgType } from '@/type';
+import { ImgSelectBoxProps, ImgType } from '@/type';
 import { Image, Select, SelectItem } from '@heroui/react';
 import React from 'react';
 
@@ -10,8 +10,8 @@ export default function ImgSelectBox({
   label,
   placeholder,
 }: ImgSelectBoxProps) {
-  const renderSelectItem = (data: TierImgType) => (
-    <SelectItem<TierImgType> key={data.id} textValue={data.name}>
+  const renderSelectItem = (data: ImgType) => (
+    <SelectItem<ImgType> key={data.id} textValue={data.name}>
       <div className="flex gap-2 items-center">
         <Image
           alt={data.name}
@@ -26,7 +26,7 @@ export default function ImgSelectBox({
     </SelectItem>
   );
 
-  const renderSelectedValue = (items: Array<{ data: TierImgType }>) => {
+  const renderSelectedValue = (items: Array<{ data: ImgType }>) => {
     return items.map((item) => (
       <div key={item.data.id} className="flex items-center gap-2">
         <Image
@@ -52,14 +52,14 @@ export default function ImgSelectBox({
         trigger: 'h-12',
       }}
       items={data}
-      value={value?.id}
+      selectedKeys={value ? [1] : []}
       label={label}
       labelPlacement="outside"
       onChange={(e) => selectedData(e.target.value)}
       placeholder={placeholder}
       renderValue={(items) =>
         renderSelectedValue(
-          items.filter((item): item is { data: TierImgType } => !!item.data),
+          items.filter((item): item is { data: ImgType } => !!item.data),
         )
       }
     >
