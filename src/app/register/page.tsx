@@ -114,8 +114,6 @@ export default function Register() {
     mutation.mutate(data);
   };
 
-  console.log(formData);
-
   return (
     <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="w-2/5 h-full flex flex-col row-start-2 items-center justify-around sm:items-center">

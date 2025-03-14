@@ -13,7 +13,6 @@ const authStore = create<AuthState>((set) => ({
 }));
 const initializeUser = () => {
   const token = getCookie('accessToken') as string | undefined;
-  console.log(token);
   if (token) {
     authStore.getState().setToken(token);
   }

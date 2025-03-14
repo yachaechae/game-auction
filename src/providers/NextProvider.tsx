@@ -1,22 +1,29 @@
-'use client'
+'use client';
 
-import {HeroUIProvider} from "@heroui/react";
-import { ThemeProvider as NextThemesProvider } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { HeroUIProvider } from '@heroui/react';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { useEffect, useState, ReactNode } from 'react';
 
-export function NextProviders({ children }: { children: React.ReactNode }) {
-    const [isMount, setMount] = useState(false)
+type NextProvidersProps = { children: ReactNode };
 
-    useEffect(() => {
-        setMount(true)
-    }, [])
+function useIsMounted() {
+  const [isMounted, setIsMounted] = useState(false);
 
-    if (!isMount) {
-        return null
-    }
-    return (
-        <NextThemesProvider attribute='class'>
-            <HeroUIProvider>{children}</HeroUIProvider>
-        </NextThemesProvider>
-    )
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  return isMounted;
+}
+
+export function NextProviders({ children }: NextProvidersProps) {
+  const isMounted = useIsMounted();
+
+  if (!isMounted) return null;
+
+  return (
+    <NextThemesProvider attribute="class">
+      <HeroUIProvider>{children}</HeroUIProvider>
+    </NextThemesProvider>
+  );
 }
