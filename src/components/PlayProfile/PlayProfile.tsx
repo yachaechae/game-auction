@@ -1,20 +1,22 @@
 import React from 'react';
 import { Avatar } from '@heroui/react';
-import { UserDataType } from '@/type';
+import { PlayerProfileProps } from '@/type';
 import ProfileImg from '@/components/PlayProfile/ProfileImg';
 
-const DEFULT_AVATER =
+const DEFAULT_AVATER =
   'https://i.namu.wiki/i/QW9jS79_492MuFZxNNmTgNGa5ynysDaTfbkjOLJ5CTeYTWQc3rmdkB3ba4vpi8dRXGwlXdjFPZ1bGCCX9jpYSg.svg';
 
-export default function PlayerProfile({ player }: { player: UserDataType }) {
+export default function PlayerProfile({
+  player,
+  customStyle,
+}: PlayerProfileProps) {
   return (
     <div
-      key={player.id}
-      className={`flex flex-col items-center justify-center gap-2 `}
+      className={`w-full flex flex-col items-center justify-center gap-2 ${customStyle ? customStyle : ''}`}
     >
       <ProfileImg
         profileImgUrl={
-          !!player.profileImgUrl ? player.profileImgUrl : DEFULT_AVATER
+          !!player.profileImgUrl ? player.profileImgUrl : DEFAULT_AVATER
         }
         highestTier={player.highestTier}
       />

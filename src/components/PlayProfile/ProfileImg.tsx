@@ -16,7 +16,7 @@ export default function ProfileImg({
         fill
         className="absolute object-cover z-20"
       />
-      <div className="absolute bottom-2 left-0 right-0 translate-y-[-2rem] translate-x-[3.5rem]">
+      <div className="w-fit absolute bottom-2 left-0 right-0 translate-y-[-2rem] translate-x-[3.5rem]">
         <div className="relative w-16 h-16">
           <Image
             src={`${profileImgUrl}`}
