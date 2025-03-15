@@ -72,7 +72,7 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
             icon: 'error',
             confirmButtonText: '확인',
           }).then(() => {
-            if (parseMessage.errorCode === 'AU0002') router.push('/login');
+            if (parseMessage.errorCode === 'AU0002') router.push('/');
           });
         } else {
           console.log(`> Received message (errors): ${received_message.body}`);
