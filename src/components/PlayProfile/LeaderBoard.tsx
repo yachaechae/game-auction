@@ -1,32 +1,35 @@
 'use client';
 import React from 'react';
-import { UserDataType } from '@/type';
+import { TeamInfoType } from '@/type';
 import PlayProfile from '@/components/PlayProfile/PlayProfile';
-import dummy from '@/data/dummy.json';
 
-const DUMMY_DATA: UserDataType[] = dummy.map((player: UserDataType) => ({
-  id: player.id,
-  userId: player.userId,
-  inGameName: player.inGameName,
-  highestTier: player.highestTier,
-  primaryLane: player.primaryLane,
-  secondaryLane: player.secondaryLane,
-  mostPlayedHeroes: player.mostPlayedHeroes,
-  profileImgUrl: player.profileImgUrl,
-  selfIntroduction: player.selfIntroduction,
-  createdDate: player.createdDate,
-  updatedDate: player.updatedDate,
-}));
-
-export default function LeaderBoard() {
+export default function LeaderBoard({ list }: { list: TeamInfoType[] }) {
   return (
-    <div className="flex flex-col gap-4 items-center flex-wrap scale-75">
+    <div className="flex flex-col items-center flex-wrap ">
       <div className="w-full flex items-center justify-between">
-        <div className="text-xl font-bold">팀 현황</div>
+        <div className="text-lg font-bold">팀 현황</div>
       </div>
-      <div className="flex gap-4 items-center justify-between flex-wrap">
-        {DUMMY_DATA.map((player) => {
-          return <PlayProfile player={player} key={player.id} />;
+      <div>
+        {list.map((team, index: number) => {
+          return (
+            <div key={index} className="flex flex-col gap-3">
+              <div className="grid grid-cols-5 gap-4">
+                {team.teammates.map((player, index) => {
+                  return (
+                    <PlayProfile
+                      player={player}
+                      key={index}
+                      customStyle={'w-1/6'}
+                    />
+                  );
+                })}
+              </div>
+              <div className="grid grid-cols-5 gap-4 text-center text-lg">
+                잔여 포인트 <br />
+                {team.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </div>
+            </div>
+          );
         })}
       </div>
     </div>

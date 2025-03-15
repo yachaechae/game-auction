@@ -3,4 +3,5 @@ export interface AuthState {
   isLoggedIn: boolean;
   setToken: (token: string) => void;
   logout: () => void;
+  userId: string;
 }

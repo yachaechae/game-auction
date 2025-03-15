@@ -4,7 +4,7 @@ import { Avatar, Button, Form, Input } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { RegisterFormData, ImgTypeKey } from '@/type';
+import { PlayerInfoType, ImgTypeKey } from '@/type';
 import { getProfileApi, registerAuctionApi } from '@/api/auctionService';
 import { uploadProfileImgToS3 } from '@/api/uploadImg/route';
 import ImgSelectBox from '@/components/ImgSelectBox/ImgSelectBox';
@@ -29,7 +29,7 @@ export default function Register() {
 
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const [formData, setFormData] = useState<RegisterFormData>({
+  const [formData, setFormData] = useState<PlayerInfoType>({
     inGameName: '',
     highestTier: '',
     primaryLane: '',
@@ -39,7 +39,7 @@ export default function Register() {
     selfIntroduction: '',
   });
 
-  const { data: profileData, isLoading } = useQuery<RegisterFormData, Error>({
+  const { data: profileData, isLoading } = useQuery<PlayerInfoType, Error>({
     queryKey: ['profile'],
     queryFn: getProfileApi,
   });
@@ -72,9 +72,9 @@ export default function Register() {
     },
   });
 
-  const handleChange = <T extends keyof RegisterFormData>(
+  const handleChange = <T extends keyof PlayerInfoType>(
     field: T,
-    value: RegisterFormData[T],
+    value: PlayerInfoType[T],
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -104,7 +104,7 @@ export default function Register() {
       return;
     }
 
-    const data: RegisterFormData = {
+    const data: PlayerInfoType = {
       ...formData,
       profileImageUrl: previewImg && (await uploadProfileImgToS3(previewImg)),
       highestTier: tier.name,
@@ -115,8 +115,8 @@ export default function Register() {
   };
 
   return (
-    <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="lg:w-2/5 h-full flex flex-col row-start-2 items-center justify-around sm:items-center sm:w-fit sm:mt-11">
+    <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:pt-20 sm:pb-8">
+      <main className="lg:w-2/5 h-full flex flex-col row-start-2 items-center justify-around sm:items-center sm:w-fit">
         <Form className="w-full m-0 gap-10 items-end" onSubmit={onSubmit}>
           <div className="w-full flex justify-center mb-6">
             <div
