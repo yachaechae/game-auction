@@ -3,18 +3,27 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import { AuthState } from '@/type/StoreType';
 import { jwtDecode } from 'jwt-decode';
 
-const userId = jwtDecode(getCookie('accessToken') as string).sub as string;
+const token = getCookie('accessToken') as string | undefined;
+let userId = '';
+if (token) {
+  try {
+    userId = jwtDecode(token).sub as string;
+  } catch (error) {
+    console.error('Invalid token', error);
+  }
+}
+
 const authStore = create<AuthState>((set) => ({
-  token: getCookie('accessToken') as string,
-  isLoggedIn: false,
+  token: token ?? '',
+  isLoggedIn: token !== undefined,
   setToken: (token) => set({ token, isLoggedIn: true }),
   logout: () => {
-    set({ token: null, isLoggedIn: false });
+    set({ token: '', isLoggedIn: false });
     deleteCookie('accessToken');
   },
-
   userId: userId,
 }));
+
 const initializeUser = () => {
   const token = getCookie('accessToken') as string | undefined;
   if (token) {
@@ -22,7 +31,6 @@ const initializeUser = () => {
   }
 
   const isLoggedIn = token !== undefined;
-
   authStore.setState({ isLoggedIn });
 };
 
