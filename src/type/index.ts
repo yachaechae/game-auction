@@ -66,7 +66,7 @@ export interface UserDataType {
   updatedDate: string;
 }
 export interface PlayerProfileProps {
-  player: UserDataType;
+  player: PlayerInfoType;
   customStyle?: string;
 }
 
@@ -74,7 +74,7 @@ export interface ChampionData {
   [key: string]: Champion;
 }
 
-export interface RegisterFormData {
+export interface PlayerInfoType {
   inGameName: string;
   highestTier: string;
   primaryLane: string;
@@ -83,7 +83,9 @@ export interface RegisterFormData {
   profileImgUrl?: string | null;
   profileImageUrl?: string | null;
   selfIntroduction: string;
+  playerType?: string;
 }
+
 export interface ImgRadioProps {
   defaultValue: string;
   onValueChange?: (value: string) => void;
@@ -93,9 +95,36 @@ export interface DefaultResponse<T> {
   resultCode: string;
   data: T;
 }
-
 export interface CustomRadioProps {
   imgSrc: string;
   value: string;
   children: React.ReactNode;
+}
+
+export interface DefaultSocketResponse<T> {
+  messageType: 'GENERAL' | 'AUCTION_PLAYERS_INFO' | 'BID_INFO' | 'AUCTION_INFO';
+  message: T;
+  errorMessage?: string;
+}
+
+export interface AuctionPlayerResponse {
+  playerInfo: PlayerInfoType[];
+  teamInfo: TeamInfoType[];
+  ownerId: string;
+  // currentInfo: CurrentInfoType;
+}
+
+export interface TeamInfoType {
+  teammates: PlayerInfoType[];
+  point: number;
+}
+export interface CurrentInfoType {
+  bidTarget: PlayerInfoType;
+  biddingLeaderName: string;
+  bidPoint: string;
+  bidEndAt: string;
+}
+
+export interface SocketProps {
+  onChangeAction: (data: DefaultSocketResponse<AuctionPlayerResponse>) => void;
 }
