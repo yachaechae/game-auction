@@ -116,7 +116,7 @@ export default function Register() {
 
   return (
     <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="w-2/5 h-full flex flex-col row-start-2 items-center justify-around sm:items-center">
+      <main className="lg:w-2/5 h-full flex flex-col row-start-2 items-center justify-around sm:items-center sm:w-fit sm:mt-11">
         <Form className="w-full m-0 gap-10 items-end" onSubmit={onSubmit}>
           <div className="w-full flex justify-center mb-6">
             <div
