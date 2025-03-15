@@ -68,7 +68,7 @@ export default function NavBar() {
         <NavbarContent justify="end">
           {isLoggedIn ? (
             <>
-              <NavbarItem className="hidden lg:flex">
+              <NavbarItem>
                 <Button onPress={() => logout()} variant="light">
                   LogOut
                 </Button>
@@ -76,7 +76,7 @@ export default function NavBar() {
             </>
           ) : (
             <>
-              <NavbarItem className="hidden lg:flex">
+              <NavbarItem>
                 <Button onPress={onLoginOpen} variant="light">
                   Login
                 </Button>
