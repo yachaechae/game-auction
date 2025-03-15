@@ -15,7 +15,6 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
   const connect = () => {
     client.current = new StompJs.Client({
       brokerURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/ws`,
-      // brokerURL: `http://172.30.1.90:24443/ws`,
       connectHeaders: {
         Authorization: `${userToken.token},`,
         auctionId: `${auctionId}`,
@@ -36,7 +35,7 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
             icon: 'error',
             confirmButtonText: '확인',
           }).then(() => {
-            router.push('/');
+            router.push('/login');
           });
         }
       },
@@ -73,7 +72,7 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
             icon: 'error',
             confirmButtonText: '확인',
           }).then(() => {
-            if (parseMessage.errorCode === 'AU0002') router.push('/');
+            if (parseMessage.errorCode === 'AU0002') router.push('/login');
           });
         } else {
           console.log(`> Received message (errors): ${received_message.body}`);
