@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Form, NumberInput } from '@heroui/react';
 import { CurrentInfoType } from '@/type';
 import Timer from '@/components/Timer/Timer';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 export default function AcutionInfo({
   currentInfo,
@@ -23,25 +27,44 @@ export default function AcutionInfo({
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
+    if (messageLog.length > 0) {
+      const lastMessage = messageLog[messageLog.length - 1]; // 마지막 메시지 가져오기
+
+      if (lastMessage === '5초 후 입찰이 시작됩니다.') {
+        setTime(5);
+      }
+    }
   }, [messageLog]);
 
   useEffect(() => {
+    const bidEndAt = dayjs(currentInfo.bidEndAt);
+    const currentTime = dayjs(); // 현재 시간
+
+    const remainingTime = bidEndAt.diff(currentTime, 'seconds');
+
+    // duration 객체를 사용하여 시, 분, 초 계산
     if (currentInfo.bidEndAt !== null) {
-      setTime(15);
+      setTime(Math.max(remainingTime, 0));
+    } else if (currentInfo.bidEndAt === null) {
+      setTime(0);
     }
   }, [currentInfo]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     sendMessage(bid);
-    if (!errorMessage) {
+    if (!errorMessage && currentInfo.bidEndAt !== null) {
       setTime(15);
     }
   };
   return (
     <div className="w-full text-foreground bg-background bg-opacity-50 rounded-md p-2 text-center text-lg flex flex-col gap-3">
       <div className="flex justify-between px-1 border-b-1 mb-1">
-        <div>현재 입찰가 : {currentInfo.bidPoint}</div>
+        <div>
+          현재 입찰가 :{currentInfo.bidPoint}
+          <br />
+          현재 입찰 팀: {currentInfo.biddingLeaderName}
+        </div>
         <Timer seconds={time} setSeconds={setTime} />
       </div>
       <div className="h-64 overflow-y-auto text-base flex flex-col gap-2 px-1">
@@ -63,6 +86,8 @@ export default function AcutionInfo({
           defaultValue={parseInt(currentInfo.bidPoint)}
           name="bid"
           placeholder="입찰가를 입력해주세요"
+          step={5}
+          isClearable
           onValueChange={(value) => setBid(value)}
         />
         <Button color="primary" type="submit">
