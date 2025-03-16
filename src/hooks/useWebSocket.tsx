@@ -23,6 +23,7 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
         auctionId: `${auctionId}`,
       },
       onConnect: () => {
+        if (isConnected) return;
         setIsConnected(true);
         console.log('connected');
         subscribe();
