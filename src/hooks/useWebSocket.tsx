@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import * as StompJs from '@stomp/stompjs';
 import { useRouter } from 'next/navigation';
@@ -12,7 +12,10 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
   const auctionId = 1;
 
   const userToken = useStore(authStore);
+  const [isConnected, setIsConnected] = useState(false);
+
   const connect = () => {
+    if (isConnected || !userToken.token) return;
     client.current = new StompJs.Client({
       brokerURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/ws`,
       connectHeaders: {
@@ -20,6 +23,7 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
         auctionId: `${auctionId}`,
       },
       onConnect: () => {
+        setIsConnected(true);
         console.log('connected');
         subscribe();
       },
@@ -39,6 +43,7 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
           });
         }
       },
+      reconnectDelay: 5000,
     });
     console.log('Activating...');
     client.current.activate();
@@ -103,8 +108,11 @@ const useWebSocket = ({ onChangeAction }: SocketProps) => {
   };
 
   const disconnect = () => {
-    client.current?.deactivate();
-    console.log('Disconnected');
+    if (client.current) {
+      client.current.deactivate();
+      setIsConnected(false);
+      console.log('Disconnected');
+    }
   };
 
   return {
