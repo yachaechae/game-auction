@@ -59,7 +59,7 @@ export default function AcutionInfo({
   return (
     <div className="w-full text-foreground bg-background bg-opacity-50 rounded-md p-2 text-center text-lg flex flex-col gap-3">
       <div className="flex justify-between px-1 border-b-1 mb-1">
-        <div>
+        <div className="w-4/5 text-left truncate">
           현재 입찰가 :{currentInfo.bidPoint}
           <br />
           현재 입찰 팀: {currentInfo.biddingLeaderName}

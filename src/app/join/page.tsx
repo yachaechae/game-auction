@@ -77,7 +77,7 @@ function Join() {
     <>
       <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <main className="relative w-fit max-w-[1290px] h-full flex flex-row flex-nowrap row-start-1 items-top justify-between -mb-28">
-          <div className="w-full max-w-[250px] flex flex-col items-start gap-5">
+          <div className="w-full max-w-[300px] flex flex-col items-start gap-5">
             <div className="w-full flex flex-wrap items-center justify-end"></div>
             <div className="w-full flex flex-col items-center gap-5 h-fit top-0 bottom-0 sticky ">
               {currentInfo && (
