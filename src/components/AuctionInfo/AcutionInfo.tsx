@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, NumberInput } from '@heroui/react';
 import { CurrentInfoType } from '@/type';
 import Timer from '@/components/Timer/Timer';
