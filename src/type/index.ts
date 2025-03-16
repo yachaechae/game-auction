@@ -68,6 +68,7 @@ export interface UserDataType {
 export interface PlayerProfileProps {
   player: PlayerInfoType;
   customStyle?: string;
+  testStyle?: string;
 }
 
 export interface ChampionData {
