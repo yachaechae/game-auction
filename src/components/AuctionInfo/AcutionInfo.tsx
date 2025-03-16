@@ -54,7 +54,7 @@ export default function AcutionInfo({
     e.preventDefault();
     sendMessage(bid);
     if (!errorMessage && currentInfo.bidEndAt !== null) {
-      setTime(15);
+      setTime(5);
     }
   };
   return (
