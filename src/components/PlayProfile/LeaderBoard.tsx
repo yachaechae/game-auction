@@ -19,7 +19,8 @@ export default function LeaderBoard({ list }: { list: TeamInfoType[] }) {
                     <PlayProfile
                       player={player}
                       key={index}
-                      customStyle={'w-1/6'}
+                      customStyle={`-mt-8`}
+                      testStyle={'truncate w-full'}
                     />
                   );
                 })}

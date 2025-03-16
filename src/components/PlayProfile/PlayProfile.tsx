@@ -9,10 +9,11 @@ const DEFAULT_AVATER =
 export default function PlayerProfile({
   player,
   customStyle,
+  testStyle,
 }: PlayerProfileProps) {
   return (
     <div
-      className={`w-full flex flex-col items-center justify-center gap-2 ${customStyle ? customStyle : ''}`}
+      className={`w-full flex flex-col items-center gap-2 ${customStyle ? customStyle : ''}`}
     >
       <ProfileImg
         profileImgUrl={
@@ -37,7 +38,9 @@ export default function PlayerProfile({
           src={`/img/Position/${player.secondaryLane}.png`}
         />
       </div>
-      <div className="text-xl">{player.inGameName}</div>
+      <div className={`text-xl text-center ${testStyle ? testStyle : ''}`}>
+        {player.inGameName}
+      </div>
     </div>
   );
 }

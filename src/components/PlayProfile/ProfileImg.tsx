@@ -22,7 +22,7 @@ export default function ProfileImg({
             src={`${profileImgUrl}`}
             alt="작은 이미지"
             fill
-            className="object-contain z-20 rounded-full"
+            className="object-cover z-20 rounded-full"
           />
         </div>
       </div>
