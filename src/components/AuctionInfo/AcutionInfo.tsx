@@ -21,12 +21,16 @@ export default function AcutionInfo({
   const [bid, setBid] = useState<number>(parseInt(currentInfo.bidPoint));
   const [time, setTime] = useState(0);
 
-  const messageEndRef = useRef<HTMLDivElement>(null);
+  // const messageEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (messageEndRef.current) {
-      messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    // if (messageEndRef.current) {
+    //   messageEndRef.current.scrollIntoView({
+    //     behavior: 'smooth',
+    //     block: 'end',
+    //     inline: 'start',
+    //   });
+    // }
     if (messageLog.length > 0) {
       const lastMessage = messageLog[messageLog.length - 1]; // 마지막 메시지 가져오기
 
@@ -34,6 +38,7 @@ export default function AcutionInfo({
         setTime(5);
       }
     }
+    // chatScroll();
   }, [messageLog]);
 
   useEffect(() => {
@@ -42,13 +47,20 @@ export default function AcutionInfo({
 
     const remainingTime = bidEndAt.diff(currentTime, 'seconds');
 
-    // duration 객체를 사용하여 시, 분, 초 계산
     if (currentInfo.bidEndAt !== null) {
       setTime(Math.max(remainingTime, 0));
     } else if (currentInfo.bidEndAt === null) {
       setTime(0);
     }
   }, [currentInfo]);
+
+  // const chatScroll = () => {
+  //   if (messageEndRef.current) {
+  //     // messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight;
+  //     // const { scrollHeight, clientHeight } = messageEndRef.current;
+  //     // messageEndRef.current.scrollTop = scrollHeight - clientHeight;
+  //   }
+  // };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,7 +79,10 @@ export default function AcutionInfo({
         </div>
         <Timer seconds={time} setSeconds={setTime} />
       </div>
-      <div className="h-64 overflow-y-auto text-base flex flex-col gap-2 px-1">
+      <div
+        className="h-64 overflow-y-auto text-base flex flex-col gap-2 px-1 overscroll-x-contain"
+        // ref={messageEndRef}
+      >
         {messageLog.map((message, index) => {
           return (
             <div className="text-left" key={index}>
@@ -75,7 +90,6 @@ export default function AcutionInfo({
             </div>
           );
         })}
-        <div ref={messageEndRef} />
       </div>
       <Form className="flex-row" onSubmit={onSubmit}>
         <NumberInput
