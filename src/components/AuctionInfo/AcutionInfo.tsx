@@ -52,9 +52,6 @@ export default function AcutionInfo({
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     sendMessage(bid);
-    if (!errorMessage && currentInfo.bidEndAt !== null) {
-      setTime(10);
-    }
   };
   return (
     <div className="w-full text-foreground bg-background bg-opacity-50 rounded-md p-2 text-center text-lg flex flex-col gap-3">
