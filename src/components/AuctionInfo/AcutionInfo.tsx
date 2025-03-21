@@ -11,12 +11,10 @@ export default function AcutionInfo({
   currentInfo,
   messageLog,
   sendMessage,
-  errorMessage,
 }: {
   currentInfo: CurrentInfoType;
   messageLog: string[];
   sendMessage: (message: number) => void;
-  errorMessage: string | null;
 }) {
   const [bid, setBid] = useState<number>(parseInt(currentInfo.bidPoint));
   const [time, setTime] = useState(0);

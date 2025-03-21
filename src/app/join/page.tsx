@@ -23,7 +23,6 @@ function Join() {
   const [teamInfo, setTeamInfo] = useState<TeamInfoType[]>();
   const [currentInfo, setCurrentInfo] = useState<CurrentInfoType>();
   const [ownerId, setOwnerId] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const userId = useStore(authStore).userId;
 
@@ -51,10 +50,6 @@ function Join() {
       case 'AUCTION_INFO': {
         const data = message.message as AuctionPlayerResponse;
         setOwnerId(data.ownerId);
-        break;
-      }
-      default: {
-        setErrorMessage(message.errorMessage as string);
         break;
       }
     }
@@ -87,7 +82,6 @@ function Join() {
                     currentInfo={currentInfo}
                     messageLog={messageLog}
                     sendMessage={sendMessage}
-                    errorMessage={errorMessage}
                   />
                 </>
               )}
